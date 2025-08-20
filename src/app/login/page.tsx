@@ -3,7 +3,13 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
@@ -18,96 +24,101 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // Mock de autenticação
+    // Add your login logic here (e.g., API call)
+    // After login, you can redirect or set loading to false
     setTimeout(() => {
-      if (email === 'admin@vitta.com' && password === '123456') {
-        // Simular login bem-sucedido
-        localStorage.setItem('vitta-auth', 'true');
-        router.push('/dashboard');
-      } else {
-        alert('Credenciais inválidas. Use: admin@vitta.com / 123456');
-      }
       setIsLoading(false);
-    }, 1000);
+      // router.push('/dashboard'); // Example redirect
+    }, 1500);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1 text-center">
-          <div className="mx-auto h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
-            <Lock className="h-6 w-6 text-primary-foreground" />
-          </div>
-          <CardTitle className="text-2xl font-bold">Bem-vindo ao Vitta</CardTitle>
-          <CardDescription>
-            Faça login para acessar seu painel de controle
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="seu@email.com"
-                  value={email}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-                  className="pl-10"
-                  required
-                />
-              </div>
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-600 via-blue-400 to-blue-200">
+      <div className="flex w-full max-w-lg items-center justify-center">
+        <div
+          className="rounded-3xl bg-gradient-to-br from-blue-700 via-blue-500 to-blue-300 p-12 text-white shadow-2xl"
+          style={{ minWidth: 420, background: 'rgba(31,38,135,0.90)' }}
+        >
+          <h1 className="mb-2 text-left text-5xl font-bold drop-shadow">
+            Login
+          </h1>
+          <p className="mb-8 text-left text-lg drop-shadow">
+            Entre com seus dados corretamente para acessar o sistema.
+          </p>
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="flex items-center gap-4">
+              <label
+                htmlFor="email"
+                className="w-32 text-right text-lg font-semibold text-white"
+              >
+                Email:
+              </label>
+              <input
+                id="email"
+                type="email"
+                placeholder="Digite seu email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="h-12 w-full rounded-md border-none bg-blue-900 px-4 text-lg text-white shadow-inner focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                required
+              />
             </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="password">Senha</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-                  className="pl-10 pr-10"
-                  required
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-1 top-1 h-8 w-8"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </Button>
-              </div>
+            <div className="flex items-center gap-4">
+              <label
+                htmlFor="password"
+                className="w-32 text-right text-lg font-semibold text-white"
+              >
+                Password:
+              </label>
+              <input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Digite sua senha"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="h-12 w-full rounded-md border-none bg-blue-900 px-4 text-lg text-white shadow-inner focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="ml-2 text-white"
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
             </div>
-
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isLoading}
-            >
-              {isLoading ? 'Entrando...' : 'Entrar'}
-            </Button>
+            <div className="mt-2 mb-6 flex items-center justify-between text-sm">
+              <span className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="remember"
+                  className="h-4 w-4 accent-blue-600"
+                />
+                <label htmlFor="remember" className="ml-2 text-white">
+                  Remember Me
+                </label>
+              </span>
+              <a href="#" className="text-blue-200 hover:underline">
+                Forgot password?
+              </a>
+            </div>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="w-48 rounded-lg border border-blue-300 bg-blue-400 py-3 text-2xl font-bold text-white shadow-[0_4px_12px_0_rgba(31,38,135,0.37)] transition-all hover:bg-blue-500"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Entrando...' : 'LOGIN'}
+              </button>
+            </div>
           </form>
-
-          <div className="mt-6 text-center text-sm text-muted-foreground">
+          <div className="mt-10 text-center text-base text-white">
             <p>Credenciais de demonstração:</p>
-            <p className="font-mono text-xs mt-1">
-              admin@vitta.com / 123456
-            </p>
+            <p className="mt-1 font-mono text-xs">admin@vitta.com / 123456</p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
-} 
+}
